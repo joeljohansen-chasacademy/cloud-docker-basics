@@ -22,7 +22,12 @@ COPY package*.json ./
 
 RUN npm ci --only=production
 
-ENV HOSTNAME=0.0.0.0
+# HOSTNAME behövs inte som hade behövts om vi körde next.js som en standalone-applikation
+# Det var med i ett ytterligare steg av optimering
+# Läs mer här: https://nextjs.org/docs/pages/api-reference/config/next-config-js/output?utm_source=chatgpt.com#:~:text=Good%20to%20know,0.0.0.0%3A8080.
+# Men utan detta kommer Render att sköta nätverkandet själv så då behöver vi inte sätta HOSTNAME.
+# ENV HOSTNAME=0.0.0.0
+
 
 COPY --from=builder /app/.next ./.next
 
